@@ -1,0 +1,36 @@
+{
+  "name": "nft-marketplace-nextjs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@apollo/experimental-nextjs-app-support": "^0.4.3",
+    "@walletconnect/ethereum-provider": "^2.10.1",
+    "encoding": "^0.1.13",
+    "graphql": "^16.8.1",
+    "lokijs": "^1.5.12",
+    "magic-sdk": "^20.1.0",
+    "moralis": "^2.23.1",
+    "moralis-v1": "^1.13.0",
+    "next": "latest",
+    "pino-pretty": "^10.2.0",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-moralis": "^1.4.2",
+    "web3uikit": "^1.0.4"
+  },
+  "devDependencies": {
+    "@apollo/client": "^3.8.0-rc.2",
+    "@types/react": "18.2.24",
+    "autoprefixer": "^10.4.16",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.3"
+  }
+}
