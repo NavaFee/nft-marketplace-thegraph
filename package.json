@@ -12,6 +12,7 @@
     "@apollo/experimental-nextjs-app-support": "^0.4.3",
     "@walletconnect/ethereum-provider": "^2.10.1",
     "encoding": "^0.1.13",
+    "ethers": "^6.7.1",
     "graphql": "^16.8.1",
     "lokijs": "^1.5.12",
     "magic-sdk": "^20.1.0",

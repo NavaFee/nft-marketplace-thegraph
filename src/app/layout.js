@@ -19,8 +19,10 @@ export default function RootLayout({ children }) {
             </head>
             <body className={`${inter.className} bg-no-repeat`}>
                 <AppProviders>
-                    <Header />
-                    {children}
+                    <ApolloWrapper>
+                        <Header />
+                        {children}
+                    </ApolloWrapper>
                 </AppProviders>
             </body>
         </html>

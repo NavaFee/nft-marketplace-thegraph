@@ -1,4 +1,7 @@
-import Index from "./page/index"
+"use client"
+import NFTBox from "../components/NFTBox"
+
+import { useMoralis } from "react-moralis"
 
 export default function Home() {
     return (
@@ -22,7 +25,7 @@ export default function Home() {
         // As more decentralized tools are being created.
         // Local development
         <div>
-            <Index />
+            <NFTBox></NFTBox>
         </div>
     )
 }
