@@ -7,9 +7,10 @@ import nftAbi from "../../../constants/basicNft.json"
 import { Card, useNotification } from "web3uikit"
 import { ethers } from "ethers"
 import Image from "next/image"
+import UpdateListingModal from "./UpdateListingModal"
 
-const truncateStr = (funllStr, strLen) => {
-    if (funllStr.length <= strLen) return funllStr
+const truncateStr = (fullStr, strLen) => {
+    if (fullStr.length <= strLen) return fullStr
 
     const separator = "..."
     const separatorLength = separator.length
@@ -78,12 +79,15 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
     const handleCardClick = () => {
         isOwnedByUser
             ? setShowModal(true)
-            : buyItem({
-                  onError: (error) => console.log(error),
-                  onSuccess: () => handleBuyItemSuccess(),
-              })
+            : async function () {
+                  buyItem({
+                      onError: (error) => console.log(error),
+                      onSuccess: () => handleBuyItemSuccess,
+                  })
+              }
     }
-    const handleBuyItemSuccess = () => {
+    const handleBuyItemSuccess = async (tx) => {
+        await tx.wait(1)
         dispatch({
             type: "success",
             message: "Item Bought!",
@@ -97,6 +101,13 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
             <div>
                 {imageURI ? (
                     <div>
+                        <UpdateListingModal
+                            isVisible={showModal}
+                            tokenId={tokenId}
+                            marketplaceAddress={marketplaceAddress}
+                            nftAddress={nftAddress}
+                            onClose={hideModal}
+                        />
                         <Card
                             title={tokenName}
                             description={tokenDescription}
@@ -123,7 +134,7 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
                         </Card>
                     </div>
                 ) : (
-                    <div>Loading ...</div>
+                    <div>Loading...</div>
                 )}
             </div>
         </div>

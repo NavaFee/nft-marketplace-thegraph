@@ -1,31 +1,51 @@
 "use client"
+
 import NFTBox from "../components/NFTBox"
 
 import { useMoralis } from "react-moralis"
+import networkMapping from "../../../constants/networkMapping.json"
+import query from "../../../constants/subgraphQueries"
+import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr"
 
 export default function Home() {
+    const { chainId, isWeb3Enabled } = useMoralis()
+    const chainString = chainId ? parseInt(chainId).toString() : null
+    const marketplaceAddress = chainId ? networkMapping[chainString].NftMarketplace[0] : null
+
+    const { loading, error, data: listedNfts } = useSuspenseQuery(query)
+    console.log(listedNfts)
+
     return (
-        // How do we show the recently listed NFTs?
-
-        // we will read from a database that has all the mappings in an
-        // easier to read data structure.
-
-        // We will index the events off-chain and then read them from our database.
-        // Setup a server to listen for those events to be fired, and we will add them to a database to query.
-
-        // TheGraph does this in a decentralized way
-        // Moralis does it in a centralized way and comes with a ton of other features
-
-        // All our logic is still 100% on-chain/
-        // Speed & Development time.
-        // Its really hard to start a prod blockchain project 100% decentralized.
-        // They are working on open sourcing their code.
-        // Feature richness
-        // We can create more features with a centralized back end to start
-        // As more decentralized tools are being created.
-        // Local development
-        <div>
-            <NFTBox></NFTBox>
+        <div classname="container mx-auto">
+            <h1 className="py-4 px-4 font-bold text-2xl">Recently Listed</h1>
+            <div className="flex flex-wrap">
+                {isWeb3Enabled && chainId ? (
+                    loading || !listedNfts ? (
+                        <div>Loading......</div>
+                    ) : (
+                        listedNfts.activeItems.map((nft) => {
+                            const { price, nftAddress, tokenId, seller } = nft
+                            console.log("-============-", nftAddress)
+                            console.log("tokenID==================", tokenId)
+                            return marketplaceAddress ? (
+                                <NFTBox
+                                    price={price}
+                                    nftAddress={nftAddress}
+                                    tokenId={tokenId}
+                                    marketplaceAddress={marketplaceAddress}
+                                    seller={seller}
+                                    key={`${nftAddress}${tokenId}`}
+                                />
+                            ) : (
+                                <div>Network error, please switch to a supported network...</div>
+                            )
+                        })
+                    )
+                ) : (
+                    <div>Web3 Currently Not Enabled</div>
+                )}
+            </div>
+            <NFTBox />
         </div>
     )
 }
